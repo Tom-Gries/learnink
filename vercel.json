@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://learnink-api.vercel.app/api/:path*"
+    }
+  ]
+}
