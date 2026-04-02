@@ -1,13 +1,17 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { Stables } from "../types/Staples";
 
-const StapleContext = createContext();
+const StapleContext = createContext<{ staples: Stables[]; loading: boolean }>({
+  staples: [],
+  loading: true,
+});
 
 export function useStaples() {
   return useContext(StapleContext);
 }
 
-export function StapleProvider({ children }) {
-  const [staples, setStaples] = useState([]);
+export function StapleProvider({ children }: { children: ReactNode }) {
+  const [staples, setStaples] = useState<Stables[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

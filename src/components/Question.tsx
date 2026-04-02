@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { Box, LinearProgress } from "@mui/material";
 import QuestionWrapper from "./QuestionWrapper";
 import AnswerBox from "./AnswerBox";
+import type { Question } from "../types/Questions";
 
-export default function Question({ question, takeDecision }) {
+type QuestionProps = {
+  question: Question;
+  takeDecision: (d: string) => void;
+};
+
+export default function Question({ question, takeDecision }: QuestionProps) {
   const TOTAL_TIME = 120_000;
   const [progress, setProgress] = useState(100);
 

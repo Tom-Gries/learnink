@@ -2,14 +2,19 @@ import { green, red, grey } from '@mui/material/colors';
 import { Box, Button } from "@mui/material";
 import QuestionWrapper from "./QuestionWrapper";
 import AnswerBox from "./AnswerBox";
+import type { answer, Question } from '../types/Questions';
 
-export default function Result({ question, decision, next }) {
+type ResultProps = {
+  question: Question;
+  decision: string;
+  next: () => void;
+};
+
+export default function Result({ question, decision, next }: ResultProps) {
   return (
     <QuestionWrapper title={question.text}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        {question.answers.map((answer) => {
-
-
+        {question.answers.map((answer: answer) => {
           return (
             <AnswerBox
               key={answer.id}
