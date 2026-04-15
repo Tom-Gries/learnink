@@ -2,7 +2,7 @@ import { green, red, grey } from '@mui/material/colors';
 import { Box, Button } from "@mui/material";
 import QuestionWrapper from "./QuestionWrapper";
 import AnswerBox from "./AnswerBox";
-import type { Answer, answer, Question } from '../types/Questions';
+import type { Answer, Question } from '../types/Questions';
 
 type ResultProps = {
   question: Question;
@@ -14,15 +14,15 @@ export default function Result({ question, decision, next }: ResultProps) {
   return (
     <QuestionWrapper title={question.text}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        {question.answers.map((answer: answer) => {
+        {question.answers.map((answer: Answer) => {
           return (
             <AnswerBox
-              key={answer.id}
+              key={answer.text}
               text={answer.text}
               disabled={true}
               background={answer.isCorrect ? green[100] : red[100]}
-              borderColor={answer.id === decision ? grey[900] : undefined}
-              borderWidth={answer.id === decision ? 2 : 1}
+              borderColor={answer === decision ? grey[900] : undefined}
+              borderWidth={answer === decision ? 2 : 1}
             />
           );
         })}
