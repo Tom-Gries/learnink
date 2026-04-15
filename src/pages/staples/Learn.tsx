@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Result from "../../components/Result";
 import FinalResult from "../../components/FinalResult";
-import type { answer } from "../../types/Questions";
+import type { Answer } from "../../types/Questions";
 
 export default function Learn() {
   const { id } = useParams();
@@ -12,7 +12,7 @@ export default function Learn() {
   const [score, setScore] = useState(0);
 
   const [index, setIndex] = useState(0);
-  const [decision, setDecision] = useState<string | null>(null);
+  const [decision, setDecision] = useState<Answer | null>(null);
 
   if (loading) return <p>Lädt…</p>;
 
@@ -21,12 +21,9 @@ export default function Learn() {
 
   const question = staple.questions[index];
 
-  const takeDecision = (d: string) => {
-    const selectedAnswer = question.answers.find((a: answer) => a.id === d);
-    if (selectedAnswer) {
-      updateScore(selectedAnswer.isCorrect);
-    }
-    setDecision(d);
+  const takeDecision = (selectedAnswer: Answer) => {
+    updateScore(selectedAnswer.isCorrect);
+    setDecision(selectedAnswer);
   }
 
   const updateScore = (isCorrect: boolean) => {
@@ -53,7 +50,7 @@ export default function Learn() {
   return (
     <Question
       question={question}
-      takeDecision={(d: string) => takeDecision(d)}
+      takeDecision={(d: Answer) => takeDecision(d)}
     />
   );
 }

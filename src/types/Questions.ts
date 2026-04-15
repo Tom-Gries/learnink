@@ -1,11 +1,21 @@
-export type answer = {
-  id: string;
+export type Answer = {
   text: string;
   isCorrect: boolean;
 }
 
 export type Question = {
-  id: string;
+  id?: string;
   text: string;
-  answers: answer[];
+  answers: Answer[];
 };
+
+export const EmptyQuestion: Question = {
+  text: "",
+  answers: [
+    { text: "", isCorrect: true },
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+  ],
+}

@@ -2,11 +2,11 @@ import { green, red, grey } from '@mui/material/colors';
 import { Box, Button } from "@mui/material";
 import QuestionWrapper from "./QuestionWrapper";
 import AnswerBox from "./AnswerBox";
-import type { answer, Question } from '../types/Questions';
+import type { Answer, answer, Question } from '../types/Questions';
 
 type ResultProps = {
   question: Question;
-  decision: string;
+  decision: Answer;
   next: () => void;
 };
 

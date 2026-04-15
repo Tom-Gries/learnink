@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Box, LinearProgress } from "@mui/material";
 import QuestionWrapper from "./QuestionWrapper";
 import AnswerBox from "./AnswerBox";
-import type { Question } from "../types/Questions";
+import type { Answer, Question } from "../types/Questions";
 
 type QuestionProps = {
   question: Question;
-  takeDecision: (d: string) => void;
+  takeDecision: (d: Answer) => void;
 };
 
 export default function Question({ question, takeDecision }: QuestionProps) {
@@ -29,9 +29,9 @@ export default function Question({ question, takeDecision }: QuestionProps) {
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         {question.answers.map((answer) => (
           <AnswerBox
-            key={answer.id}
+            key={answer.text}
             text={answer.text}
-            onClick={() => takeDecision(answer.id)}
+            onClick={() => takeDecision(answer)}
             disabled={false}
           />
         ))}
