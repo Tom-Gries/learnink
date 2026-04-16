@@ -1,6 +1,5 @@
 import { Card, CardContent, CardActions, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Podium from "./Podium";
 import { useStaples } from "../provider/StapleProvider";
 
 function Stables() {
@@ -18,7 +17,6 @@ function Stables() {
             <Typography variant="h4" component="div">
               {staple.name}
             </Typography>
-            <Podium />
           </CardContent>
           <CardActions>
             <Button

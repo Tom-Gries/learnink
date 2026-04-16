@@ -1,73 +1,68 @@
-import { useState } from "react";
-import { TextField, Switch, FormControlLabel, Box, Button } from "@mui/material";
-import { EmptyQuestion, type Question } from "../types/Questions";
+import { TextField, Switch, FormControlLabel } from "@mui/material";
+import type { Question, Answer } from "../types/Questions";
 
 interface QuestionFormProps {
-  question?: Question | null;
-  saveQuestion: (question: Question) => void;
+  question: Question;
+  onChange: (updatedQuestion: Question) => void;
 }
 
-export default function QuestionForm({ question, saveQuestion }: QuestionFormProps) {
-  const [currentQuestion, setCurrentQuestion] = useState<Question>(
-    question ?? EmptyQuestion
-  );
+export default function QuestionForm({ question, onChange }: QuestionFormProps) {
+  const handleAnswerChange = (index: number, updated: Partial<Answer>) => {
+    let updatedAnswers = [...question.answers];
 
-  function setCorrectAnswer(index: number) {
-    setCurrentQuestion(prev => ({
-      ...prev,
-      answers: prev.answers.map((a, i) => ({
-        ...a,
-        isCorrect: i === index,
-      })),
-    }));
-  }
+    // Wenn diese Antwort auf "correct" gesetzt wird
+    if (updated.isCorrect) {
+      updatedAnswers = updatedAnswers.map((answer, i) => ({
+        ...answer,
+        isCorrect: i === index, // nur diese eine true
+      }));
+    } else {
+      // normales Update (z.B. Text ändern oder false setzen)
+      updatedAnswers[index] = {
+        ...updatedAnswers[index],
+        ...updated,
+      };
+    }
 
-  function updateAnswerText(index: number, text: string) {
-    setCurrentQuestion(prev => ({
-      ...prev,
-      answers: prev.answers.map((a, i) => (i === index ? { ...a, text } : a)),
-    }));
-  }
+    onChange({
+      ...question,
+      answers: updatedAnswers,
+    });
+  };
 
   return (
-    <Box display="flex" flexDirection="column" gap={3}>
+    <>
       <TextField
-        label="Fragestellung"
-        value={currentQuestion.text}
-        onChange={(e) =>
-          setCurrentQuestion(prev => ({ ...prev, text: e.target.value }))
+        label="Frage"
+        value={question.text}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange({ ...question, text: e.target.value })
         }
-        fullWidth
       />
 
-      {currentQuestion.answers.map((answer, index) => (
-        <Box key={index} display="flex" alignItems="center" gap={2}>
+      {question.answers.map((answer, index) => (
+        <div key={index} style={{ marginTop: 10 }}>
           <TextField
             label={`Antwort ${index + 1}`}
             value={answer.text}
-            onChange={(e) => updateAnswerText(index, e.target.value)}
-            fullWidth
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleAnswerChange(index, { text: e.target.value })
+            }
           />
 
           <FormControlLabel
             control={
               <Switch
                 checked={answer.isCorrect}
-                onChange={() => setCorrectAnswer(index)}
+                onChange={(e) =>
+                  handleAnswerChange(index, { isCorrect: e.target.checked })
+                }
               />
             }
-            label="Correct"
+            label="Richtig"
           />
-        </Box>
+        </div>
       ))}
-
-      <Button
-        variant="contained"
-        onClick={() => { saveQuestion(currentQuestion); setCurrentQuestion(EmptyQuestion) }}
-        color="primary"
-      >
-        Frage speichern
-      </Button>
-    </Box>
+    </>
   );
 }
