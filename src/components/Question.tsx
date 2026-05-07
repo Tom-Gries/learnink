@@ -9,27 +9,42 @@ type QuestionProps = {
   takeDecision: (d: Answer) => void;
 };
 
-export default function Question({ question, takeDecision }: QuestionProps) {
+export default function Question({
+  question,
+  takeDecision,
+}: QuestionProps) {
   const TOTAL_TIME = 120_000;
   const [progress, setProgress] = useState(100);
 
   useEffect(() => {
     const start = Date.now();
+
     const interval = setInterval(() => {
       const diff = Date.now() - start;
       const percent = 100 - (diff / TOTAL_TIME) * 100;
+
       setProgress(Math.max(percent, 0));
-      if (percent <= 0) clearInterval(interval);
+
+      if (percent <= 0) {
+        clearInterval(interval);
+      }
     }, 100);
+
     return () => clearInterval(interval);
   }, [question]);
 
   return (
     <QuestionWrapper title={question.text}>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        {question.answers.map((answer) => (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+        }}
+      >
+        {question.answers.map((answer, index) => (
           <AnswerBox
-            key={answer.text}
+            key={`${answer.text}-${index}`}
             text={answer.text}
             onClick={() => takeDecision(answer)}
             disabled={false}
@@ -41,7 +56,10 @@ export default function Question({ question, takeDecision }: QuestionProps) {
         <LinearProgress
           variant="determinate"
           value={progress}
-          sx={{ height: 10, borderRadius: 2 }}
+          sx={{
+            height: 10,
+            borderRadius: 2,
+          }}
         />
       </Box>
     </QuestionWrapper>

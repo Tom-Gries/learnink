@@ -1,8 +1,8 @@
-import { green, red, grey } from '@mui/material/colors';
+import { green, red, grey } from "@mui/material/colors";
 import { Box, Button } from "@mui/material";
 import QuestionWrapper from "./QuestionWrapper";
 import AnswerBox from "./AnswerBox";
-import type { Answer, Question } from '../types/Questions';
+import type { Answer, Question } from "../types/Questions";
 
 type ResultProps = {
   question: Question;
@@ -10,14 +10,24 @@ type ResultProps = {
   next: () => void;
 };
 
-export default function Result({ question, decision, next }: ResultProps) {
+export default function Result({
+  question,
+  decision,
+  next,
+}: ResultProps) {
   return (
     <QuestionWrapper title={question.text}>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        {question.answers.map((answer: Answer) => {
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+        }}
+      >
+        {question.answers.map((answer: Answer, index: number) => {
           return (
             <AnswerBox
-              key={answer.text}
+              key={`${answer.text}-${index}`}
               text={answer.text}
               disabled={true}
               background={answer.isCorrect ? green[100] : red[100]}
@@ -28,7 +38,12 @@ export default function Result({ question, decision, next }: ResultProps) {
         })}
       </Box>
 
-      <Box sx={{ mt: 3, textAlign: "center" }}>
+      <Box
+        sx={{
+          mt: 3,
+          textAlign: "center",
+        }}
+      >
         <Button variant="outlined" onClick={next}>
           Weiter
         </Button>
