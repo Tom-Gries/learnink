@@ -1,4 +1,4 @@
-import { TextField, Switch, FormControlLabel } from "@mui/material";
+import { TextField, Switch, FormControlLabel, Card, CardContent } from "@mui/material";
 import type { Question, Answer } from "../types/Questions";
 
 interface QuestionFormProps {
@@ -31,38 +31,40 @@ export default function QuestionForm({ question, onChange }: QuestionFormProps) 
   };
 
   return (
-    <>
-      <TextField
-        label="Frage"
-        value={question.text}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          onChange({ ...question, text: e.target.value })
-        }
-      />
+    <Card>
+      <CardContent>
+        <TextField
+          label="Frage"
+          value={question.text}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange({ ...question, text: e.target.value })
+          }
+        />
 
-      {question.answers.map((answer, index) => (
-        <div key={index} style={{ marginTop: 10 }}>
-          <TextField
-            label={`Antwort ${index + 1}`}
-            value={answer.text}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleAnswerChange(index, { text: e.target.value })
-            }
-          />
+        {question.answers.map((answer, index) => (
+          <div key={index} style={{ marginTop: 10 }}>
+            <TextField
+              label={`Antwort ${index + 1}`}
+              value={answer.text}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleAnswerChange(index, { text: e.target.value })
+              }
+            />
 
-          <FormControlLabel
-            control={
-              <Switch
-                checked={answer.isCorrect}
-                onChange={(e) =>
-                  handleAnswerChange(index, { isCorrect: e.target.checked })
-                }
-              />
-            }
-            label="Richtig"
-          />
-        </div>
-      ))}
-    </>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={answer.isCorrect}
+                  onChange={(e) =>
+                    handleAnswerChange(index, { isCorrect: e.target.checked })
+                  }
+                />
+              }
+              label="Richtig"
+            />
+          </div>
+        ))}
+      </CardContent>
+    </Card>
   );
 }

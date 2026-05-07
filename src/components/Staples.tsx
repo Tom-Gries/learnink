@@ -8,38 +8,33 @@ function Stables() {
 
   const navigate = useNavigate();
 
-  return (
-    <div>
-
-      {staples.map((staple) => (
-        <Card key={staple._id}>
-          <CardContent>
-            <Typography variant="h4" component="div">
-              {staple.name}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              size="small"
-              onClick={() =>
-                navigate(`/staple/edit/${staple._id}`)
-              }
-            >
-              Edit
-            </Button>
-            <Button
-              size="small"
-              onClick={() =>
-                navigate(`/staple/learn/${staple._id}`)
-              }
-            >
-              Learn
-            </Button>
-          </CardActions>
-        </Card>
-      ))}
-    </div>
-  );
+  return staples.map((staple) => (
+    <Card key={staple._id}>
+      <CardContent>
+        <Typography variant="h4" component="div">
+          {staple.name}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          size="small"
+          onClick={() =>
+            navigate(`/staple/edit/${staple._id}`)
+          }
+        >
+          Edit
+        </Button>
+        <Button
+          size="small"
+          onClick={() =>
+            navigate(`/staple/learn/${staple._id}`)
+          }
+        >
+          Learn
+        </Button>
+      </CardActions>
+    </Card>
+  ))
 }
 
 export default Stables

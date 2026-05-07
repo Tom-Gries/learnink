@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Stable } from "../types/Staples";
 import { useStaples } from "../provider/StapleProvider";
-import { Button, TextField } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import { EmptyQuestion, type Question } from "../types/Questions";
 import QuestionForm from "./QuestionForm";
 
@@ -44,7 +44,7 @@ export default function StableForm({ stable }: StableFormProps) {
   };
 
   return (
-    <>
+    <Grid container direction="column" spacing={2} padding={2}>
       <TextField
         label="Stable Name"
         value={formValue.name}
@@ -67,6 +67,6 @@ export default function StableForm({ stable }: StableFormProps) {
       />
 
       <Button onClick={submit}>Save</Button>
-    </>
+    </Grid>
   );
 }
