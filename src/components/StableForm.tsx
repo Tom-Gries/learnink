@@ -14,7 +14,6 @@ export default function StableForm({ stable }: StableFormProps) {
   const [question, setQuestion] = useState(EmptyQuestion);
   const { updateStaple } = useStaples();
 
-  // 🔥 Synchronisation: wenn sich stable ändert → formValue updaten
   useEffect(() => {
     setFormValue(stable);
   }, [stable]);

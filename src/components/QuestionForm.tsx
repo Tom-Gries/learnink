@@ -1,4 +1,4 @@
-import { TextField, Switch, FormControlLabel, Card, CardContent } from "@mui/material";
+import { TextField, Switch, FormControlLabel, Card, CardContent, Box } from "@mui/material";
 import type { Question, Answer } from "../types/Questions";
 
 interface QuestionFormProps {
@@ -10,14 +10,12 @@ export default function QuestionForm({ question, onChange }: QuestionFormProps) 
   const handleAnswerChange = (index: number, updated: Partial<Answer>) => {
     let updatedAnswers = [...question.answers];
 
-    // Wenn diese Antwort auf "correct" gesetzt wird
     if (updated.isCorrect) {
       updatedAnswers = updatedAnswers.map((answer, i) => ({
         ...answer,
-        isCorrect: i === index, // nur diese eine true
+        isCorrect: i === index,
       }));
     } else {
-      // normales Update (z.B. Text ändern oder false setzen)
       updatedAnswers[index] = {
         ...updatedAnswers[index],
         ...updated,
@@ -35,6 +33,10 @@ export default function QuestionForm({ question, onChange }: QuestionFormProps) 
       <CardContent>
         <TextField
           label="Frage"
+          fullWidth
+          multiline
+          minRows={1}
+          maxRows={3}
           value={question.text}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange({ ...question, text: e.target.value })
@@ -42,9 +44,21 @@ export default function QuestionForm({ question, onChange }: QuestionFormProps) 
         />
 
         {question.answers.map((answer, index) => (
-          <div key={index} style={{ marginTop: 10 }}>
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              mt: 2,
+            }}
+          >
             <TextField
               label={`Antwort ${index + 1}`}
+              fullWidth
+              multiline
+              minRows={1}
+              maxRows={3}
               value={answer.text}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleAnswerChange(index, { text: e.target.value })
@@ -61,8 +75,9 @@ export default function QuestionForm({ question, onChange }: QuestionFormProps) 
                 />
               }
               label="Richtig"
+              sx={{ minWidth: 120 }}
             />
-          </div>
+          </Box>
         ))}
       </CardContent>
     </Card>
